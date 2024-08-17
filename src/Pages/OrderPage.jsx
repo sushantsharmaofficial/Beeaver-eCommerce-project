@@ -1,8 +1,15 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { cancelOrder } from "../Store/orderSlice";
+import { RiDeleteBin6Fill } from "react-icons/ri";
 
 const Order = () => {
   const orders = useSelector((state) => state.orders);
+  const dispatch = useDispatch();
+
+  const handleCancelOrder = (index) => {
+    dispatch(cancelOrder(index));
+  };
 
   return (
     <div className="container mx-auto mb-20 px-4 lg:px-0">
@@ -12,9 +19,17 @@ const Order = () => {
         orders.map((order, index) => (
           <div
             key={index}
-            className="border border-gray-300 rounded-lg shadow-md bg-white mb-10 p-6"
+            className="border border-gray-300 rounded-lg shadow-md bg-white mb-10 p-6 relative"
           >
-            <h3 className="text-2xl font-semibold mb-4">Order {index + 1}</h3>
+            <div className="flex justify-between items-start">
+              <h3 className="text-2xl font-semibold mb-4">Order {index + 1}</h3>
+              <button
+                className="flex items-center gap-1 text-red-500 hover:text-red-700 font-semibold transition"
+                onClick={() => handleCancelOrder(index)}
+              >
+                <RiDeleteBin6Fill className="h-5 w-5" /> Cancel Order
+              </button>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {order.map((item) => (
                 <div
